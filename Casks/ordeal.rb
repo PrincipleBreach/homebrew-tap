@@ -15,4 +15,12 @@ cask "ordeal" do
   homepage "https://principlebreach.com"
 
   binary "ordeal"
+
+  # The release binary is not yet Apple-notarized; clear the quarantine flag on
+  # install so the CLI runs. Notarization is planned.
+  postflight do
+    system_command "/usr/bin/xattr",
+                   args: ["-dr", "com.apple.quarantine", "#{staged_path}/ordeal"],
+                   must_succeed: false
+  end
 end
